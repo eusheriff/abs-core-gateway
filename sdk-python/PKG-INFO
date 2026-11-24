@@ -1,0 +1,81 @@
+Metadata-Version: 2.4
+Name: abs-sdk
+Version: 10.1.3
+Summary: Official Python SDK for ABS Core — AI Agent Governance Infrastructure
+Author-email: OCONNECTOR Technology <dev@oconnector.tech>
+License: MIT
+Project-URL: Homepage, https://abscore.app
+Project-URL: Documentation, https://docs.abscore.app
+Project-URL: Repository, https://github.com/eusheriff/abs-core
+Keywords: ai,agents,governance,security,mcp,abs,llm
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pytest>=8.0.0
+Requires-Dist: crewai>=0.22.0
+Requires-Dist: PyJWT>=2.8.0
+Requires-Dist: cryptography>=41.0.0
+
+# ABS Core Python SDK
+
+Official Python SDK for [ABS Core](https://abscore.app) — AI Agent Governance Infrastructure.
+
+## Installation
+
+```bash
+pip install abs-sdk
+```
+
+## Quick Start
+
+```python
+from abs_sdk import ABSClient
+
+client = ABSClient(
+    dsn="abs://my-workspace.abscore.app",
+    token="abs_pat_xxx"
+)
+
+# Evaluate a tool call before executing
+verdict = client.evaluate_tool("fs.write", {
+    "path": "/etc/passwd",
+    "content": "malicious"
+})
+
+if verdict.decision == "DENY":
+    raise PermissionError(f"Blocked by ABS: {verdict.policy_result.reason}")
+
+# Send agent heartbeat
+client.heartbeat("agent-123")
+
+# Check bond status
+bond = client.get_bond("agent-123")
+print(f"Bond balance: ${bond.balance}")
+```
+
+## Features
+
+- **MCP Bridge**: Evaluate tool calls against the ABS Policy Engine (`evaluate_tool`, `evaluate_batch`)
+- **Agent Management**: Register agents, send heartbeats, get status
+- **Bond/Slash**: Create financial bonds, check slashing history
+- **Audit Export**: Export governance audit trail
+- **Local Entropy**: Calculate Shannon entropy offline (no API call)
+- **Zero Dependencies**: Uses only Python stdlib (`urllib`, `json`, `math`)
+
+## DSN Format
+
+```
+abs://<workspace-id>.abscore.app
+```
+
+## License
+
+MIT — See [LICENSE](../../LICENSE) for details.

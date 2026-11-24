@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abs-core"
+version = "10.2.0"
+description = "Official Python SDK for ABS Core — AI Agent Governance Infrastructure"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "OCONNECTOR Technology", email = "dev@oconnector.tech"},
+]
+dependencies = [
+    "PyJWT>=2.8.0",
+    "cryptography>=41.0.0",
+]
+keywords = ["ai", "agents", "governance", "security", "mcp", "abs", "llm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries",
+]
+
+[project.optional-dependencies]
+crewai = ["crewai>=0.22.0"]
+langchain = ["langchain>=0.1.0", "langchain-core>=0.1.0"]
+dev = ["pytest>=8.0.0"]
+
+[project.urls]
+Homepage = "https://abscore.app"
+Documentation = "https://docs.abscore.app"
+Repository = "https://github.com/eusheriff/abs-core"

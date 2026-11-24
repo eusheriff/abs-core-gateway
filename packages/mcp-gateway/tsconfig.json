@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "esnext",
+        "lib": [
+            "ES2022"
+        ],
+        "outDir": "./dist",
+        "strict": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "useUnknownInCatchVariables": false,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "declaration": true,
+        "sourceMap": false,
+        "moduleResolution": "bundler"
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/**/*.test.ts"
+    ]
+}

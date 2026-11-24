@@ -1,0 +1,80 @@
+{
+  "name": "@oconnectortech/mcp-gateway",
+  "type": "module",
+  "version": "6.2.0",
+  "description": "Security Proxy for Model Context Protocol \u2014 Govern any MCP tool call with ABS Core NRaaS (Non-Repudiation as a Service)",
+  "main": "dist/proxy.js",
+  "types": "dist/proxy.d.ts",
+  "bin": {
+    "mcp-gateway": "dist/cli.js",
+    "abs-core": "dist/cli.js",
+    "abs-mcp": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/proxy.d.ts",
+      "import": "./dist/proxy.js",
+      "require": "./dist/proxy.js",
+      "default": "./dist/proxy.js"
+    },
+    "./watch": {
+      "import": "./dist/cli-watch.js",
+      "require": "./dist/cli-watch.js",
+      "default": "./dist/cli-watch.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json --emitDeclarationOnly && esbuild src/proxy.ts src/cli.ts src/cli-watch.ts --outdir=dist --bundle --platform=node --target=node20 --format=esm --external:@modelcontextprotocol/sdk --external:@modelcontextprotocol/sdk/* --external:uuid --external:better-sqlite3 --external:koffi --external:pkcs11js --external:ioredis --external:pg --external:@neondatabase/serverless --external:@upstash/redis --external:prom-client --external:hono --external:@open-policy-agent/opa-wasm --external:@abs-core/quorum/* --external:@abs-core/identity/* --external:@abs-core/ledger/* --external:@abs-core/threat-intel",
+    "start": "tsx src/proxy.ts",
+    "watch": "tsx src/cli-watch.ts",
+    "prepublishOnly": "echo 'dist already built'",
+    "test": "vitest run --passWithNoTests"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-governance",
+    "ai-security",
+    "agent-governance",
+    "non-repudiation",
+    "compliance",
+    "nist",
+    "ed25519",
+    "abs-core",
+    "nraas",
+    "crewai",
+    "langchain",
+    "sovereign-accountability"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eusheriff/abs-core-gateway.git",
+    "directory": "packages/mcp-gateway"
+  },
+  "homepage": "https://abscore.app",
+  "bugs": "https://github.com/eusheriff/abs-core-gateway/issues",
+  "author": "OConnector Technology (@eusheriff)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "uuid": "^11.0.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.5.0",
+    "vitest": "^4.1.11"
+  },
+  "packageManager": "pnpm@9.15.9"
+}

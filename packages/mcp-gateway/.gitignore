@@ -1,0 +1,6 @@
+
+# ABS Core — Sensitive data
+.abs/*.pem
+.abs/*.db
+.abs/.env
+.abs/backups/

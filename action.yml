@@ -1,0 +1,45 @@
+name: 'ABS Core — Sovereign AI PR & Commit Gatekeeper'
+description: 'Deterministic pre-merge interdiction for AI-authored pull requests (Secret Scanning, Dangerous Code Fencing, Human Quorum on Critical Infra, and SAR Cryptographic Receipts).'
+author: 'OConnector Technology (ABS Core)'
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  base-ref:
+    description: 'Base Git reference for diff comparison (defaults to origin/$GITHUB_BASE_REF)'
+    required: false
+    default: ''
+  quorum-approved:
+    description: 'Set to "true" when M-of-N human quorum approval has been granted for critical infrastructure or migration paths'
+    required: false
+    default: 'false'
+  sar-output:
+    description: 'Output file path for the generated Sovereign Audit Record (.sar.json)'
+    required: false
+    default: 'abs-pr-receipt.sar.json'
+
+outputs:
+  sar-path:
+    description: 'Path to the generated Sovereign Audit Record (.sar.json)'
+    value: ${{ inputs.sar-output }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Evaluate Pull Request against ABS Core Gates
+      shell: bash
+      env:
+        ABS_QUORUM_APPROVED: ${{ inputs.quorum-approved }}
+        ABS_SAR_OUTPUT: ${{ inputs.sar-output }}
+      run: |
+        ARGS=(--output "$ABS_SAR_OUTPUT")
+        if [[ -n "${{ inputs.base-ref }}" ]]; then
+          ARGS+=(--base "${{ inputs.base-ref }}")
+        fi
+        node "${{ github.action_path }}/scripts/govern-pr.mjs" "${ARGS[@]}"

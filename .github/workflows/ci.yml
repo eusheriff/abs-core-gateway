@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  mcp-gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build & test mcp-gateway
+        working-directory: packages/mcp-gateway
+        run: |
+          corepack enable
+          pnpm install --no-frozen-lockfile
+          pnpm run build
+          pnpm exec vitest run src/stdio-wrap.test.ts src/standalone-bundle.test.ts
+
+  sdk-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Test Python SDK (abs-core)
+        working-directory: sdk-python
+        run: uv run --with pytest pytest -q
